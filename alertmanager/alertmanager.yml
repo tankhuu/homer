@@ -1,0 +1,15 @@
+global:
+  smtp_smarthost: 'localhost:25'
+  smtp_from: 'alertmanager@athena-nonprod.com'
+  smtp_require_tls: false
+
+templates:
+- '/etc/alertmanager/template/*.tmpl'
+
+route:
+  receiver: email
+
+receivers:
+- name: 'email'
+  email_configs:
+  - to: 'tan.khuu@karrostech.com'
