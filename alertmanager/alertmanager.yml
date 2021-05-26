@@ -1,15 +1,11 @@
-global:
-  smtp_smarthost: 'localhost:25'
-  smtp_from: 'alertmanager@athena-nonprod.com'
-  smtp_require_tls: false
-
-templates:
-- '/etc/alertmanager/template/*.tmpl'
+# templates:
+# - '/etc/alertmanager/template/*.tmpl'
 
 route:
-  receiver: email
+  receiver: sns-forwarder
 
 receivers:
-- name: 'email'
-  email_configs:
-  - to: 'tan.khuu@karrostech.com'
+- name: 'sns-forwarder'
+  webhook_configs:
+  - send_resolved: True
+    url: http://10.11.73.51:9087/alert/athena-alarms

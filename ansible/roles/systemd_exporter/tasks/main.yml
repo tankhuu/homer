@@ -27,3 +27,7 @@
     name: systemd_exporter
     state: started
     enabled: True
+
+- name: Restart service
+  shell:
+      cmd: sudo systemctl restart systemd_exporter
