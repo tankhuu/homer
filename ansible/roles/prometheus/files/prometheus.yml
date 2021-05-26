@@ -1,0 +1,73 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      # - alertmanager:9093
+
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+scrape_configs:
+- job_name: 'prometheus'
+  static_configs:
+  - targets: ['localhost:9090']
+- job_name: 'athena_ec2'
+  ec2_sd_configs:
+  - region: us-east-2
+    role_arn: arn:aws:iam::696952606624:role/athena-iam-PrometheusRole-55RDI77YQKYA
+    port: 9100
+    filters:
+    - name: 'tag:project'
+      values: ['athena']
+    - name: 'tag:type'
+      values: ['backend']
+  - region: us-east-2
+    role_arn: arn:aws:iam::696952606624:role/athena-iam-PrometheusRole-55RDI77YQKYA
+    port: 9100
+    filters:
+    - name: 'tag:project'
+      values: ['athena']
+    - name: 'tag:type'
+      values: ['cache-queue']
+  - region: us-east-2
+    role_arn: arn:aws:iam::696952606624:role/athena-iam-PrometheusRole-55RDI77YQKYA
+    port: 9216
+    filters:
+    - name: 'tag:project'
+      values: ['athena']
+    - name: 'tag:type'
+      values: ['cache-queue']
+  - region: us-east-2
+    role_arn: arn:aws:iam::690893158275:role/prometheusServiceDiscoveryEC2Role
+    port: 9100
+    filters:
+    - name: 'tag:project'
+      values: ['athena']
+    - name: 'tag:type'
+      values: ['backend']
+  - region: us-east-2
+    role_arn: arn:aws:iam::690893158275:role/prometheusServiceDiscoveryEC2Role
+    port: 9100
+    filters:
+    - name: 'tag:project'
+      values: ['athena']
+    - name: 'tag:type'
+      values: ['cache-queue']
+  - region: us-east-2
+    role_arn: arn:aws:iam::690893158275:role/prometheusServiceDiscoveryEC2Role
+    port: 9216
+    filters:
+    - name: 'tag:project'
+      values: ['athena']
+    - name: 'tag:type'
+      values: ['cache-queue']
+  relabel_configs:
+  - source_labels: [__meta_ec2_tag_tenant]
+    target_label: tenant
+  - source_labels: [__meta_ec2_tag_type]
+    target_label: type

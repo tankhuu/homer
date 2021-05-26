@@ -1,0 +1,31 @@
+---
+- name: install mongodb_exporter into Cache-Queue Instance
+  become: yes
+  copy:
+    src: mongodb_exporter
+    dest: /usr/local/bin
+    mode: 0755
+
+- name: Ensures /opt/prometheus/mongodb_exporter dir exists
+  file: 
+    path: /opt/prometheus/mongodb_exporter
+    state: directory
+- name: create startup file for mongodb_exporter
+  copy:
+    src: start.sh
+    dest: /opt/prometheus/mongodb_exporter
+    mode: 0755
+
+- name: add mongodb_exporter as SystemD service
+  copy:
+    src: mongodb_exporter.service
+    dest: /etc/systemd/system
+    mode: 0644
+
+- name: enable & make sure mongodb_exporter service is started
+  systemd:
+    name: mongodb_exporter
+    state: started
+    enabled: True
+
+# Enable & Start Service

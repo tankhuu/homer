@@ -1,0 +1,13 @@
+[Unit]
+Description= MongoDB Exporter Service
+After=network.target
+
+[Service]
+ExecStartPre=/bin/sleep 5
+Type=simple
+ExecStart=/opt/prometheus/mongodb_exporter/start.sh
+User=root
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

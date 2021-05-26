@@ -39,6 +39,14 @@ scrape_configs:
     - name: 'tag:type'
       values: ['cache-queue']
   - region: us-east-2
+    role_arn: arn:aws:iam::696952606624:role/athena-iam-PrometheusRole-55RDI77YQKYA
+    port: 9558
+    filters:
+    - name: 'tag:project'
+      values: ['athena']
+    - name: 'tag:type'
+      values: ['cache-queue']
+  - region: us-east-2
     role_arn: arn:aws:iam::690893158275:role/prometheusServiceDiscoveryEC2Role
     port: 9100
     filters:
@@ -47,6 +55,14 @@ scrape_configs:
   - region: us-east-2
     role_arn: arn:aws:iam::690893158275:role/prometheusServiceDiscoveryEC2Role
     port: 9216
+    filters:
+    - name: 'tag:project'
+      values: ['athena']
+    - name: 'tag:type'
+      values: ['cache-queue']
+  - region: us-east-2
+    role_arn: arn:aws:iam::690893158275:role/prometheusServiceDiscoveryEC2Role
+    port: 9558
     filters:
     - name: 'tag:project'
       values: ['athena']

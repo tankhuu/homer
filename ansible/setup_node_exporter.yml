@@ -1,0 +1,17 @@
+---
+# PlayBook for Athena Monitoring
+
+# pre_tasks: 
+  # EPEL/GPG setup, firewall configuration ...
+- hosts: ip-10-0-54-134.us-east-2.compute.internal
+  remote_user: ubuntu
+  become: yes
+  gather_facts: false
+  vars:
+    ansible_ssh_private_key_file: ~/.ssh/edulogvn-devops-ohio.pem
+    # ansible_ssh_private_key_file: ~/.ssh/athena-devops.pem
+  roles:
+  - node_exporter
+
+# tasks:
+  # Athena monitoring deployment tasks

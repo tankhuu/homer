@@ -1,0 +1,29 @@
+---
+- name: install systemd_exporter into Instance
+  become: yes
+  copy:
+    src: systemd_exporter
+    dest: /usr/local/bin
+    mode: 0755
+
+- name: Ensures /opt/prometheus/systemd_exporter dir exists
+  file: 
+    path: /opt/prometheus/systemd_exporter
+    state: directory
+- name: create startup file for systemd_exporter
+  copy:
+    src: start.sh
+    dest: /opt/prometheus/systemd_exporter
+    mode: 0755
+
+- name: add systemd_exporter as SystemD service
+  copy:
+    src: systemd_exporter.service
+    dest: /etc/systemd/system
+    mode: 0644
+
+- name: enable & make sure systemd_exporter service is started
+  systemd:
+    name: systemd_exporter
+    state: started
+    enabled: True

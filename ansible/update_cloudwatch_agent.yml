@@ -1,0 +1,21 @@
+---
+# PlayBook for Athena Monitoring
+
+# pre_tasks: 
+  # EPEL/GPG setup, firewall configuration ...
+- hosts: type_backend
+  remote_user: ubuntu
+  become: yes
+  gather_facts: false
+  vars:
+    ansible_ssh_private_key_file: ~/.ssh/edulogvn-devops-ohio.pem
+    # ansible_ssh_private_key_file: ~/.ssh/athena-devops.pem
+  tasks:
+  # Athena monitoring deployment tasks
+  - name: Enable CloudWatch Agent
+    shell:
+      cmd: |
+        #!/bin/bash -xe
+        . /opt/athena/env/athena.env
+        sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c ssm:AmazonCloudWatch-athena-${ENV}-${TENANT}
+        sudo systemctl restart amazon-cloudwatch-agent
