@@ -45,7 +45,7 @@ scrape_configs:
     - name: 'tag:project'
       values: ['athena']
     - name: 'tag:type'
-      values: ['cache-queue']
+      values: ['backend']
   - region: us-east-2
     role_arn: arn:aws:iam::690893158275:role/prometheusServiceDiscoveryEC2Role
     port: 9100
